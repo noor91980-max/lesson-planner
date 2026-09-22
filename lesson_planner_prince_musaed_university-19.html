@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>مخطط الدرس الذكي | الكلية التطبيقية</title>
+<style>
+:root{
+  --navy:#162A63;
+  --navy2:#213B7A;
+  --teal:#17B7B1;
+  --sky:#56C7D9;
+  --violet:#6042B6;
+  --ink:#172033;
+  --muted:#657089;
+  --line:#E4E9F2;
+  --soft:#F6F8FC;
+  --white:#FFFFFF;
+  --ok:#168B66;
+  --warn:#B26A00;
+  --danger:#B63E55;
+  --shadow:0 14px 36px rgba(22,42,99,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:linear-gradient(180deg,#F7F9FD 0,#EEF3FA 100%);
+  color:var(--ink);font-family:Tahoma,Arial,"Segoe UI",sans-serif;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1440px;margin:auto;min-height:100vh}
+.topbar{
+  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 24px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--teal),var(--navy) 58%,var(--violet));
+  display:grid;place-items:center;box-shadow:0 8px 20px rgba(22,42,99,.18)}
+.mark svg{width:31px;height:31px}
+.brand h1{margin:0;font-size:17px;color:var(--navy)}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 12px;border-radius:12px;
+  font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:7px
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(22,42,99,.09)}
+.btn.primary{border-color:transparent;background:linear-gradient(135deg,var(--navy),var(--violet));color:#fff}
+.btn.teal{border-color:transparent;background:linear-gradient(135deg,var(--teal),#0A9EA3);color:#fff}
+.btn.danger{color:var(--danger);background:#fff}
+.btn.small{padding:6px 9px;border-radius:10px;font-size:12px}
+
+.hero{
+  margin:24px;position:relative;overflow:hidden;border-radius:28px;
+  padding:28px;background:linear-gradient(125deg,var(--navy) 0%,var(--navy2) 48%,var(--violet) 100%);
+  color:white;box-shadow:var(--shadow)
+}
+.hero:after{
+  content:"";position:absolute;left:-70px;bottom:-120px;width:330px;height:330px;border-radius:50%;
+  border:55px solid rgba(23,183,177,.22)
+}
+.hero:before{
+  content:"";position:absolute;right:-70px;top:-80px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(86,199,217,.28),transparent 65%)
+}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.6fr .8fr;gap:24px;align-items:center}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:7px 11px;border-radius:999px;font-size:12px}
+.hero h2{font-size:31px;margin:12px 0 8px;line-height:1.3}
+.hero p{margin:0;line-height:1.9;color:rgba(255,255,255,.86);max-width:820px}
+.hero-card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);padding:18px;border-radius:20px}
+.hero-card strong{display:block;margin-bottom:10px}
+.hero-card ul{margin:0;padding-right:18px;line-height:1.9;font-size:13px;color:rgba(255,255,255,.9)}
+
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:20px;padding:0 24px 32px}
+.sidebar{
+  position:sticky;top:83px;align-self:start;background:#fff;border:1px solid var(--line);
+  border-radius:20px;padding:12px;box-shadow:var(--shadow)
+}
+.navbtn{
+  width:100%;border:0;background:transparent;text-align:right;padding:12px 13px;border-radius:13px;color:#4D5970;
+  display:flex;gap:10px;align-items:center;font-weight:700;margin:3px 0
+}
+.navbtn .num{width:28px;height:28px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:12px;color:var(--navy)}
+.navbtn.active{background:linear-gradient(90deg,rgba(23,183,177,.10),rgba(96,66,182,.08));color:var(--navy)}
+.navbtn.active .num{background:var(--navy);color:#fff}
+.side-score{margin-top:12px;padding:14px;border-radius:16px;background:var(--soft);border:1px solid var(--line)}
+.score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.meter{height:9px;background:#E7ECF4;border-radius:999px;overflow:hidden}
+.meter>div{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--violet));transition:.35s}
+.side-note{font-size:11px;line-height:1.6;color:var(--muted);margin-top:8px}
+
+.main{min-width:0}
+.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.panel.active{display:block}
+.panel h3{margin:0 0 6px;color:var(--navy);font-size:22px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 20px;line-height:1.7}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0 12px}
+.section-title h4{margin:0;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}
+.col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}.col-2{grid-column:span 2}
+.field label{display:block;font-size:12px;font-weight:700;color:#4C5870;margin:0 0 6px}
+.req:after{content:" *";color:var(--danger)}
+input,select,textarea{
+  width:100%;border:1px solid #DDE3EE;background:#fff;border-radius:12px;padding:11px 12px;color:var(--ink);outline:none;
+  transition:.2s
+}
+textarea{min-height:88px;resize:vertical;line-height:1.65}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(23,183,177,.11)}
+.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.divider{height:1px;background:var(--line);margin:20px 0}
+
+.card{border:1px solid var(--line);border-radius:17px;padding:15px;margin:10px 0;background:linear-gradient(180deg,#fff,#FBFCFE)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:11px;background:#EEF3FF;color:var(--navy);font-weight:700}
+.badge.teal{background:#E9FBF8;color:#08756F}
+.badge.warn{background:#FFF6E8;color:var(--warn)}
+.iconbtn{border:0;background:#FFF0F3;color:var(--danger);width:32px;height:32px;border-radius:10px;font-weight:900}
+.checkrow{display:flex;align-items:flex-start;gap:9px;padding:9px 0}
+.checkrow input{width:auto;margin-top:3px}
+.checkrow label{font-size:13px;line-height:1.6;color:#465168}
+.pillbox{display:flex;flex-wrap:wrap;gap:8px}
+.pill{border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:12px;background:#fff;color:#49546A}
+
+.qa-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.qa-item{display:flex;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.qa-dot{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;background:#F2F4F8;color:#7A8499;font-weight:900}
+.qa-item.ok{border-color:#B9E5D7;background:#F6FCFA}
+.qa-item.ok .qa-dot{background:#DDF6ED;color:var(--ok)}
+.qa-item.warn{border-color:#F0D7A9;background:#FFFBF4}
+.qa-item.warn .qa-dot{background:#FFF0D5;color:var(--warn)}
+.qa-item strong{display:block;font-size:13px;color:#354057}
+.qa-item span{font-size:11px;color:var(--muted);line-height:1.5}
+
+.output-wrap{display:grid;gap:16px}
+.output-card{
+  background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 24px rgba(22,42,99,.07)
+}
+.output-head{
+  padding:22px 24px;background:linear-gradient(120deg,var(--navy),var(--violet));color:#fff;position:relative;overflow:hidden
+}
+.output-head:after{content:"";position:absolute;left:-30px;bottom:-90px;width:180px;height:180px;border-radius:50%;border:38px solid rgba(23,183,177,.22)}
+.output-head h2{margin:0 0 5px;font-size:25px;position:relative;z-index:2}
+.output-head p{margin:0;color:rgba(255,255,255,.82);font-size:13px;position:relative;z-index:2}
+.output-body{padding:22px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px}
+.meta div{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px}
+.meta b{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}
+.meta span{font-size:12px;font-weight:700;color:#344057}
+.outcome-box{border-right:4px solid var(--teal);padding:12px 14px;background:#F7FCFC;border-radius:10px;margin:9px 0}
+.outcome-box b{color:var(--navy)}
+.outcome-box p{margin:5px 0 0;line-height:1.7;font-size:13px}
+.table-wrap{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:700px;font-size:12px}
+th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.55}
+th{background:#F0F4FA;color:var(--navy);text-align:right}
+.smallprint{font-size:10px;color:#7A8494;line-height:1.5}
+.rights{margin-top:18px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.notice{padding:12px 14px;border-radius:13px;background:#FFF9EE;border:1px solid #F1DEB6;color:#79530D;font-size:12px;line-height:1.7}
+.success{padding:12px 14px;border-radius:13px;background:#F2FBF8;border:1px solid #C7EBDD;color:#246D58;font-size:12px;line-height:1.7}
+.empty{color:#8A94A7;font-style:italic}
+.statusline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.kpi{padding:10px 13px;border-radius:14px;background:var(--soft);border:1px solid var(--line);min-width:135px}
+.kpi b{display:block;color:var(--navy);font-size:19px}
+.kpi span{font-size:10px;color:var(--muted)}
+.hidden{display:none!important}
+.footer{padding:22px 24px;color:#7A8494;text-align:center;font-size:11px}
+
+.toast{position:fixed;left:20px;bottom:20px;z-index:99;background:#172033;color:white;padding:11px 14px;border-radius:12px;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:980px){
+ .hero-grid,.layout{grid-template-columns:1fr}.sidebar{position:static}.sidebar{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}
+ .side-score{grid-column:1/-1}.meta{grid-template-columns:repeat(2,1fr)}
+ .col-8,.col-6,.col-4,.col-3,.col-2{grid-column:span 12}.qa-list{grid-template-columns:1fr}
+ .topbar-inner{align-items:flex-start}.top-actions{justify-content:flex-start}
+}
+@media(max-width:640px){
+ .topbar-inner,.hero,.layout{margin-left:0;margin-right:0}
+ .topbar-inner{padding:10px 14px;flex-direction:column}.hero{margin:14px;border-radius:20px;padding:20px}
+ .hero h2{font-size:24px}.layout{padding:0 14px 22px}.sidebar{grid-template-columns:1fr 1fr}
+ .panel{padding:15px;border-radius:18px}.meta{grid-template-columns:1fr}.output-body{padding:15px}
+}
+
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .topbar,.hero,.sidebar,.panel,.footer,.no-print,.toast{display:none!important}
+  .layout{display:block;padding:0}.main{display:block}
+  #panelOutput{display:block!important;border:0;box-shadow:none;padding:0}
+  .output-wrap{display:block}.output-card{box-shadow:none;border:0;border-radius:0;break-after:page}
+  .output-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .output-body{padding:16px}
+  .meta{grid-template-columns:repeat(4,1fr)}
+  table{min-width:0;font-size:10px}
+  .print-student-only #qualityOutput{display:none!important}
+  .print-quality-only #studentOutput{display:none!important}
+  .rights{font-size:9px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none">
+          <path d="M10 17 24 9l14 8v14l-14 8-14-8V17Z" stroke="white" stroke-width="3" opacity=".95"/>
+          <path d="M17 19v10l7 4 7-4v-7l-7-4-4 2" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="37" cy="12" r="3" fill="white"/><circle cx="12" cy="36" r="3" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <h1>مخطط الدرس الذكي | الكلية التطبيقية</h1>
+        <p>جامعة الأمير مساعد بن عبدالرحمن · Lesson Alignment & Quality Planner</p>
+      </div>
+    </div>
+    <div class="top-actions no-print">
+      <button class="btn" onclick="saveDraft()">💾 حفظ مسودة</button>
+      <button class="btn" onclick="loadDraft()">↩ استعادة</button>
+      <button class="btn teal" onclick="goOutput()">👁 معاينة النتيجة</button>
+      <button class="btn primary" onclick="printAll()">PDF كامل</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">أداة مواءمة الدرس مع نواتج التعلم والتقويم والجودة</span>
+      <h2>من توصيف المقرر إلى بطاقة طالب واضحة وسجل جودة قابل للتوثيق</h2>
+      <p>يملأ عضو هيئة التدريس بيانات الدرس، ويربط كل ناتج تعلم بالناتج الوارد في توصيف المقرر، واستراتيجية التدريس، وأداة التقييم، ومعيار النجاح، ودليل التنفيذ. ثم تولّد الأداة تلقائيًا مخرجين: بطاقة مبسطة للطالب وسجل مواءمة للجودة.</p>
+    </div>
+    <div class="hero-card">
+      <strong>ما الذي تنتجه الأداة؟</strong>
+      <ul>
+        <li>نواتج تعلم الدرس بصياغة أكاديمية وصياغة يفهمها الطالب.</li>
+        <li>مصفوفة مواءمة CLO → نشاط → تقييم → دليل → مستهدف.</li>
+        <li>فحص اكتمال سريع قبل المحاضرة.</li>
+        <li>سجل انعكاس وتحسين بعد التنفيذ.</li>
+        <li>نسخ مباشر + إخراج A4 للحفظ كـ PDF.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar no-print">
+    <button class="navbtn active" data-panel="basic"><span class="num">1</span> بيانات الدرس</button>
+    <button class="navbtn" data-panel="outcomes"><span class="num">2</span> النواتج والمواءمة</button>
+    <button class="navbtn" data-panel="delivery"><span class="num">3</span> خطة التنفيذ</button>
+    <button class="navbtn" data-panel="assessment"><span class="num">4</span> التقييم والأدلة</button>
+    <button class="navbtn" data-panel="quality"><span class="num">5</span> تحقق الجودة</button>
+    <button class="navbtn" data-panel="reflection"><span class="num">6</span> الانعكاس والتحسين</button>
+    <button class="navbtn" data-panel="output"><span class="num">7</span> النتيجة</button>
+    <div class="side-score">
+      <div class="score-row"><strong>اكتمال الخطة</strong><strong id="scoreText">0%</strong></div>
+      <div class="meter"><div id="scoreBar"></div></div>
+      <div class="side-note">مؤشر تنظيمي داخل الأداة لمراجعة اكتمال العناصر، وليس درجة اعتماد رسمية.</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="panel active" id="panelBasic">
+      <h3>1. بيانات الدرس</h3>
+      <p class="sub">ابدأ ببيانات المقرر كما تظهر في التوصيف، ثم أدخل معلومات المحاضرة التي سيشاهدها الطالب.</p>
+      <div class="grid">
+        <div class="field col-6"><label class="req">اسم البرنامج</label><input id="program" placeholder="مثال: دبلوم الأمن والسلامة"></div>
+        <div class="field col-6"><label class="req">اسم المقرر</label><input id="course" placeholder="اسم المقرر حسب التوصيف"></div>
+        <div class="field col-3"><label>رمز المقرر</label><input id="courseCode" placeholder="XXX101"></div>
+        <div class="field col-3"><label>المستوى</label><input id="level" placeholder="المستوى الأول"></div>
+        <div class="field col-3"><label class="req">الأسبوع</label><input id="week" placeholder="الأسبوع 4"></div>
+        <div class="field col-3"><label class="req">مدة الدرس بالدقائق</label><input id="duration" type="number" min="1" value="120"></div>
+        <div class="field col-8"><label class="req">عنوان الدرس</label><input id="lessonTitle" placeholder="عنوان واضح ومحدد"></div>
+        <div class="field col-4"><label>نمط التقديم</label>
+          <select id="deliveryMode"><option>تعلم إلكتروني متزامن</option><option>تعلم إلكتروني غير متزامن</option><option>تعلم مدمج</option><option>حضوري</option></select>
+        </div>
+        <div class="field col-6"><label>عضو هيئة التدريس</label><input id="instructor" placeholder="اختياري"></div>
+        <div class="field col-6"><label>الشعبة</label><input id="section" placeholder="اختياري"></div>
+        <div class="field col-6"><label>ما يجب أن يعرفه الطالب قبل الدرس</label><textarea id="prereq" placeholder="متطلبات أو معرفة سابقة"></textarea></div>
+        <div class="field col-6"><label>مصادر/مواد التعلم</label><textarea id="resources" placeholder="فصل، فيديو، رابط LMS، دليل، قراءة..."></textarea></div>
+      </div>
+      <div class="divider"></div>
+      <div class="grid">
+        <div class="field col-6"><label class="req">اسم صاحب/ة حقوق تصميم الأداة</label><input id="rightsName" value="أ. نور أحمد الزهراني"></div>
+        <div class="field col-6"><label>صيغة الحقوق</label><input id="rightsText" value="إعداد وتصميم"></div>
+      </div>
+      <div class="notice" style="margin-top:15px">ملاحظة: الأداة مخصصة للاستخدام الأكاديمي داخل الكلية التطبيقية. اعتمادها كنموذج رسمي يتطلب موافقة الجهة المختصة بالجودة أو الكلية.</div>
+    </section>
+
+    <section class="panel" id="panelOutcomes">
+      <h3>2. نواتج التعلم والمواءمة</h3>
+      <p class="sub">لكل ناتج في الدرس: اربطه برمز ونص ناتج تعلم المقرر من التوصيف، ثم حدّد مستوى بلوم، النشاط، التقييم، والمستهدف.</p>
+      <div class="section-title">
+        <h4>نواتج الدرس</h4><button class="btn teal small" onclick="addOutcome()">＋ إضافة ناتج</button>
+      </div>
+      <div id="outcomesList"></div>
+      <div class="hint">قاعدة مواءمة بسيطة: إذا كان الناتج يطلب «تحليل» فلا يكفي أن تكون أداة التقييم سؤال تذكر فقط؛ يجب أن تقيس مستوى التفكير المطلوب.</div>
+    </section>
+
+    <section class="panel" id="panelDelivery">
+      <h3>3. خطة التنفيذ</h3>
+      <p class="sub">قسّم الدرس إلى خطوات زمنية. ستتحقق الأداة من مجموع الدقائق مقارنة بمدة الدرس المحددة.</p>
+      <div class="section-title">
+        <h4>تسلسل أنشطة التعلم</h4><button class="btn teal small" onclick="addActivity()">＋ إضافة نشاط</button>
+      </div>
+      <div id="activitiesList"></div>
+      <div class="statusline" style="margin-top:14px">
+        <div class="kpi"><b id="activityMinutes">0</b><span>إجمالي دقائق الأنشطة</span></div>
+        <div class="kpi"><b id="durationDiff">0</b><span>الفرق عن مدة الدرس</span></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelAssessment">
+      <h3>4. التقييم والأدلة</h3>
+      <p class="sub">سجّل كيف ستقيس التعلم، وما الدليل الذي سيُحفظ، وكيف ستُقدّم التغذية الراجعة.</p>
+      <div class="grid">
+        <div class="field col-4"><label>التقييم القبلي</label><textarea id="preAssessment" placeholder="سؤال تشخيصي، استطلاع، مراجعة..."></textarea></div>
+        <div class="field col-4"><label class="req">التقييم التكويني أثناء الدرس</label><textarea id="formAssessment" placeholder="أسئلة، نشاط، حالة، تصويت، ملاحظة أداء..."></textarea></div>
+        <div class="field col-4"><label class="req">التقييم الختامي/دليل تحقق الدرس</label><textarea id="summAssessment" placeholder="Exit ticket، اختبار قصير، مهمة، منتج..."></textarea></div>
+        <div class="field col-6"><label class="req">آلية التغذية الراجعة</label><textarea id="feedback" placeholder="فورية شفوية، تلقائية، Rubric، تعليق مكتوب..."></textarea></div>
+        <div class="field col-6"><label class="req">مكان حفظ الأدلة</label><textarea id="evidenceStore" placeholder="LMS / ملف المقرر / سجل الجودة / تقرير النتائج..."></textarea></div>
+      </div>
+      <div class="divider"></div>
+      <h4>ضبط أداة التقييم</h4>
+      <div class="grid">
+        <div class="field col-4"><label>هل يوجد نموذج إجابة/معيار أداء؟</label>
+          <select id="answerKey"><option value="">اختر</option><option>نعم - نموذج إجابة</option><option>نعم - Rubric / سلم تقدير</option><option>لا ينطبق</option><option>لم يجهز بعد</option></select>
+        </div>
+        <div class="field col-4"><label>المراجعة القبلية للأداة</label>
+          <select id="preReview"><option value="">اختر</option><option>تمت</option><option>مجدولة</option><option>لا تنطبق</option><option>لم تتم</option></select>
+        </div>
+        <div class="field col-4"><label>نوع القياس</label>
+          <select id="measureType"><option>مباشر</option><option>غير مباشر</option><option>مباشر + غير مباشر</option></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelQuality">
+      <h3>5. تحقق الجودة قبل المحاضرة</h3>
+      <p class="sub">هذه البنود تساعد عضو هيئة التدريس على توثيق الاستعداد؛ وستدخل ضمن فحص اكتمال الخطة.</p>
+      <div class="grid">
+        <div class="col-6">
+          <div class="checkrow"><input type="checkbox" id="q1"><label for="q1">تمت مراجعة نواتج التعلم من التوصيف وعدم اختراع CLO جديد غير معتمد.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q2"><label for="q2">كل ناتج درس مرتبط بنشاط تعلم وأداة تقييم مناسبة لمستوى بلوم.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q3"><label for="q3">تم تحديد معيار/مستهدف نجاح واضح حيث يلزم.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q4"><label for="q4">أداة التقييم وتعليماتها جاهزة قبل التنفيذ، ومعها نموذج إجابة أو Rubric عندما يلزم.</label></div>
+        </div>
+        <div class="col-6">
+          <div class="checkrow"><input type="checkbox" id="q5"><label for="q5">المواد والروابط قابلة للوصول ومناسبة للتعلم الإلكتروني.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q6"><label for="q6">تم توضيح ما سيُقيّم للطالب وكيف سيعرف أنه نجح.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q7"><label for="q7">تم تحديد الدليل الذي سيحفظ بعد المحاضرة ومكان حفظه.</label></div>
+          <div class="checkrow"><input type="checkbox" id="q8"><label for="q8">تمت مراعاة النزاهة الأكاديمية والعدالة ووضوح التعليمات.</label></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <h4>نتيجة الفحص الآلي</h4>
+      <div id="qaList" class="qa-list"></div>
+    </section>
+
+    <section class="panel" id="panelReflection">
+      <h3>6. الانعكاس والتحسين بعد التنفيذ</h3>
+      <p class="sub">استخدم هذا الجزء بعد المحاضرة لإغلاق دائرة التحسين المستمر: ماذا تحقق؟ ما الفجوة؟ وما الإجراء القادم؟</p>
+      <div class="grid">
+        <div class="field col-4"><label>نسبة تحقق مستهدف الدرس إن توفرت (%)</label><input id="actualAchievement" type="number" min="0" max="100" placeholder="مثال: 82"></div>
+        <div class="field col-4"><label>عدد الحضور/المشاركين</label><input id="attendance" type="number" min="0"></div>
+        <div class="field col-4"><label>تاريخ التنفيذ</label><input id="lessonDate" type="date"></div>
+        <div class="field col-6"><label>ما الذي نجح؟</label><textarea id="workedWell" placeholder="دلائل، مشاركة، نتائج..."></textarea></div>
+        <div class="field col-6"><label>الفجوة أو التحدي</label><textarea id="gap" placeholder="مفهوم لم يتحقق، وقت غير كافٍ، ضعف تفاعل..."></textarea></div>
+        <div class="field col-8"><label>إجراء التحسين للمرة القادمة</label><textarea id="improvement" placeholder="إجراء محدد قابل للتنفيذ"></textarea></div>
+        <div class="field col-4"><label>موعد/أسبوع المتابعة</label><input id="followup" placeholder="الأسبوع القادم / التاريخ"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelOutput">
+      <div class="section-title no-print">
+        <div>
+          <h3>7. النتيجة الجاهزة</h3>
+          <p class="sub" style="margin:4px 0 0">يمكن نسخ كل مخرج أو طباعته وحفظه PDF من نافذة الطباعة.</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn" onclick="copyStudent()">نسخ بطاقة الطالب</button>
+          <button class="btn" onclick="copyQuality()">نسخ سجل الجودة</button>
+          <button class="btn teal" onclick="printStudent()">PDF بطاقة الطالب</button>
+          <button class="btn teal" onclick="printQuality()">PDF سجل الجودة</button>
+        </div>
+      </div>
+
+      <div class="output-wrap">
+        <article class="output-card" id="studentOutput">
+          <div class="output-head">
+            <h2 id="oStudentTitle">بطاقة الدرس للطالب</h2>
+            <p>جامعة الأمير مساعد بن عبدالرحمن · الكلية التطبيقية</p>
+          </div>
+          <div class="output-body" id="studentBody"></div>
+        </article>
+
+        <article class="output-card" id="qualityOutput">
+          <div class="output-head">
+            <h2>سجل مواءمة وجودة الدرس</h2>
+            <p>Lesson Alignment & Quality Record</p>
+          </div>
+          <div class="output-body" id="qualityBody"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="footer">إعداد وتصميم: أ. نور أحمد الزهراني · منسقة دبلوم الأمن والسلامة · الكلية التطبيقية</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const val = id => ($(id)?.value || '').trim();
+const checked = id => !!$(id)?.checked;
+let outcomeN = 0, activityN = 0;
+
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+function goPanel(name){
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+  $('panel'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
+  document.querySelector(`.navbtn[data-panel="${name}"]`)?.classList.add('active');
+  if(name==='output') renderOutputs();
+  if(name==='quality') runQA();
+  window.scrollTo({top:76,behavior:'smooth'});
+}
+document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>goPanel(btn.dataset.panel)));
+
+function addOutcome(data={}){
+  outcomeN++;
+  const id=outcomeN;
+  const wrap=document.createElement('div');
+  wrap.className='card outcome-card';
+  wrap.dataset.id=id;
+  wrap.innerHTML=`
+    <div class="card-head"><div><span class="badge">ناتج ${id}</span> <span class="badge teal">CLO Alignment</span></div><button class="iconbtn" title="حذف" onclick="this.closest('.outcome-card').remove(); updateAll()">×</button></div>
+    <div class="grid">
+      <div class="field col-2"><label class="req">رمز CLO</label><input class="oclo" placeholder="CLO-S2" value="${esc(data.clo||'')}"></div>
+      <div class="field col-6"><label class="req">نص ناتج المقرر من التوصيف</label><textarea class="ocloText" placeholder="انسخه كما هو من توصيف المقرر">${esc(data.cloText||'')}</textarea></div>
+      <div class="field col-4"><label>مجال التعلم</label><select class="odomain">
+        ${['المعرفة والفهم','المهارات','القيم والاستقلالية والمسؤولية'].map(x=>`<option ${data.domain===x?'selected':''}>${x}</option>`).join('')}
+      </select></div>
+      <div class="field col-8"><label class="req">ناتج تعلم الدرس القابل للقياس</label><textarea class="olesson" placeholder="بنهاية الدرس يتوقع أن يكون الطالب قادرًا على...">${esc(data.lesson||'')}</textarea></div>
+      <div class="field col-4"><label class="req">مستوى بلوم</label><select class="obloom">
+        ${['تذكر','فهم','تطبيق','تحليل','تقييم','إبداع'].map(x=>`<option ${data.bloom===x?'selected':''}>${x}</option>`).join('')}
+      </select></div>
+      <div class="field col-6"><label>الصياغة المبسطة للطالب</label><textarea class="ostudent" placeholder="اليوم ستتعلم كيف...">${esc(data.student||'')}</textarea></div>
+      <div class="field col-6"><label class="req">استراتيجية/نشاط التعلم المرتبط</label><textarea class="oactivity" placeholder="حل حالة، مناقشة، محاكاة، نشاط فردي...">${esc(data.activity||'')}</textarea></div>
+      <div class="field col-5"><label class="req">أداة التقييم المرتبطة</label><input class="oassess" placeholder="سؤال تحليلي / اختبار / Rubric / أداء..." value="${esc(data.assess||'')}"></div>
+      <div class="field col-3"><label class="req">المستهدف</label><input class="otarget" placeholder="مثال: ≥ 70%" value="${esc(data.target||'')}"></div>
+      <div class="field col-4"><label class="req">الدليل المتوقع</label><input class="oevidence" placeholder="نتيجة، إجابة، ملف، لقطة تقرير..." value="${esc(data.evidence||'')}"></div>
+    </div>`;
+  $('outcomesList').appendChild(wrap);
+  wrap.querySelectorAll('input,textarea,select').forEach(e=>e.addEventListener('input',updateAll));
+  updateAll();
+}
+function getOutcomes(){
+  return [...document.querySelectorAll('.outcome-card')].map((c,i)=>({
+    n:i+1,clo:c.querySelector('.oclo').value.trim(),cloText:c.querySelector('.ocloText').value.trim(),
+    domain:c.querySelector('.odomain').value,bloom:c.querySelector('.obloom').value,lesson:c.querySelector('.olesson').value.trim(),
+    student:c.querySelector('.ostudent').value.trim(),activity:c.querySelector('.oactivity').value.trim(),
+    assess:c.querySelector('.oassess').value.trim(),target:c.querySelector('.otarget').value.trim(),
+    evidence:c.querySelector('.oevidence').value.trim()
+  }));
+}
+
+function addActivity(data={}){
+  activityN++;
+  const id=activityN;
+  const wrap=document.createElement('div');wrap.className='card activity-card';wrap.dataset.id=id;
+  wrap.innerHTML=`
+  <div class="card-head"><span class="badge warn">خطوة ${id}</span><button class="iconbtn" onclick="this.closest('.activity-card').remove();updateAll()">×</button></div>
+  <div class="grid">
+    <div class="field col-3"><label class="req">المرحلة</label><select class="astage">${['تهيئة/تنشيط معرفة سابقة','شرح/بناء المفهوم','نشاط تطبيقي','مناقشة/تغذية راجعة','تقويم تكويني','إغلاق/تقويم ختامي'].map(x=>`<option ${data.stage===x?'selected':''}>${x}</option>`).join('')}</select></div>
+    <div class="field col-5"><label class="req">وصف ما سيفعله الطلاب</label><input class="adesc" placeholder="ما المهمة أو التفاعل؟" value="${esc(data.desc||'')}"></div>
+    <div class="field col-2"><label class="req">الدقائق</label><input type="number" min="0" class="amin" value="${esc(data.min||'0')}"></div>
+    <div class="field col-2"><label>يرتبط بـ</label><input class="alink" placeholder="CLO-S2" value="${esc(data.link||'')}"></div>
+    <div class="field col-4"><label>استراتيجية التدريس</label><input class="astrategy" placeholder="مناقشة، PBL، عصف ذهني..." value="${esc(data.strategy||'')}"></div>
+    <div class="field col-4"><label>الأداة/المنصة</label><input class="atool" placeholder="Teams / LMS / Whiteboard..." value="${esc(data.tool||'')}"></div>
+    <div class="field col-4"><label>مخرج/دليل النشاط</label><input class="aevidence" placeholder="إجابة، مشاركة، تقرير..." value="${esc(data.evidence||'')}"></div>
+  </div>`;
+  $('activitiesList').appendChild(wrap);
+  wrap.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',updateAll));
+  updateAll();
+}
+function getActivities(){
+  return [...document.querySelectorAll('.activity-card')].map((c,i)=>({
+    n:i+1,stage:c.querySelector('.astage').value,desc:c.querySelector('.adesc').value.trim(),
+    min:Number(c.querySelector('.amin').value||0),link:c.querySelector('.alink').value.trim(),
+    strategy:c.querySelector('.astrategy').value.trim(),tool:c.querySelector('.atool').value.trim(),
+    evidence:c.querySelector('.aevidence').value.trim()
+  }));
+}
+
+function updateTiming(){
+  const total=getActivities().reduce((s,a)=>s+a.min,0), dur=Number(val('duration')||0), diff=dur-total;
+  $('activityMinutes').textContent=total;
+  $('durationDiff').textContent=(diff>0?'+':'')+diff;
+  $('durationDiff').style.color=diff===0?'var(--ok)':(Math.abs(diff)<=10?'var(--warn)':'var(--danger)');
+}
+
+function qualityChecks(){
+  const o=getOutcomes(), acts=getActivities(), dur=Number(val('duration')||0), total=acts.reduce((s,a)=>s+a.min,0);
+  const basic=!!(val('program')&&val('course')&&val('week')&&val('lessonTitle')&&dur>0);
+  const mapped=o.length>0 && o.every(x=>x.clo&&x.cloText&&x.lesson);
+  const alignment=o.length>0 && o.every(x=>x.activity&&x.assess);
+  const target=o.length>0 && o.every(x=>x.target);
+  const evidence=o.length>0 && o.every(x=>x.evidence);
+  const timing=acts.length>0 && Math.abs(total-dur)<=10;
+  const assessment=!!(val('formAssessment')&&val('summAssessment')&&val('feedback')&&val('evidenceStore'));
+  const checklist=['q1','q2','q3','q4','q5','q6','q7','q8'].filter(checked).length>=6;
+  return [
+    {ok:basic,title:'البيانات الأساسية',desc:'البرنامج، المقرر، الأسبوع، عنوان الدرس والمدة.'},
+    {ok:mapped,title:'الربط بالتوصيف',desc:'لكل ناتج رمز CLO ونص من توصيف المقرر وناتج درس قابل للقياس.'},
+    {ok:alignment,title:'المواءمة البنائية',desc:'كل ناتج مرتبط بنشاط تعلم وأداة تقييم.'},
+    {ok:target,title:'المستهدف',desc:'تم تحديد معيار نجاح/مستهدف لكل ناتج.'},
+    {ok:evidence,title:'الدليل',desc:'تم تحديد دليل متوقع يمكن حفظه أو الرجوع إليه.'},
+    {ok:timing,title:'واقعية الزمن',desc:'مجموع الأنشطة قريب من مدة الدرس (±10 دقائق).'},
+    {ok:assessment,title:'التقييم والتغذية الراجعة',desc:'التقييم التكويني والختامي والتغذية الراجعة وحفظ الأدلة موثقة.'},
+    {ok:checklist,title:'فحص الاستعداد',desc:'تم تأكيد معظم بنود تحقق الجودة قبل التنفيذ.'}
+  ];
+}
+function runQA(){
+  const checks=qualityChecks();
+  $('qaList').innerHTML=checks.map(c=>`<div class="qa-item ${c.ok?'ok':'warn'}"><div class="qa-dot">${c.ok?'✓':'!'}</div><div><strong>${c.title}</strong><span>${c.desc}</span></div></div>`).join('');
+  updateScore();
+}
+function updateScore(){
+  const c=qualityChecks(), score=Math.round(c.filter(x=>x.ok).length/c.length*100);
+  $('scoreText').textContent=score+'%';$('scoreBar').style.width=score+'%';
+}
+function updateAll(){updateTiming();updateScore();}
+
+function rightsHtml(){
+  return `<div class="rights">
+    <span><strong>إعداد وتصميم: أ. نور أحمد الزهراني</strong><br>منسقة دبلوم الأمن والسلامة<br>الكلية التطبيقية</span>
+    <span>جامعة الأمير مساعد بن عبدالرحمن</span>
+  </div>`;
+}
+function metaHtml(){
+  const items=[['البرنامج',val('program')],['المقرر',val('course')+(val('courseCode')?' · '+val('courseCode'):'')],['المستوى',val('level')],['الأسبوع',val('week')],['الشعبة',val('section')],['نمط التقديم',val('deliveryMode')],['مدة الدرس',val('duration')?val('duration')+' دقيقة':''],['عضو هيئة التدريس',val('instructor')]];
+  return `<div class="meta">${items.map(([k,v])=>`<div><b>${k}</b><span>${esc(v)||'<span class="empty">—</span>'}</span></div>`).join('')}</div>`;
+}
+function studentText(){
+  const o=getOutcomes(), lines=[];
+  lines.push(`بطاقة الدرس للطالب`);
+  lines.push(`جامعة الأمير مساعد بن عبدالرحمن | الكلية التطبيقية`);
+  lines.push(`${val('course')} - ${val('lessonTitle')} | ${val('week')}`);
+  lines.push(`\nبنهاية هذا الدرس ستتمكن من:`);
+  o.forEach((x,i)=>lines.push(`${i+1}. ${x.student||x.lesson} [مرتبط بـ ${x.clo}]`));
+  lines.push(`\nكيف ستتعلم؟`);
+  getActivities().forEach(a=>lines.push(`- ${a.stage}: ${a.desc}${a.min?' ('+a.min+' دقيقة)':''}`));
+  lines.push(`\nكيف سيُقاس تعلمك؟`);
+  o.forEach(x=>lines.push(`- ${x.clo}: ${x.assess} | معيار النجاح: ${x.target}`));
+  if(val('prereq')) lines.push(`\nاستعد قبل الدرس: ${val('prereq')}`);
+  if(val('resources')) lines.push(`\nالمصادر: ${val('resources')}`);
+  return lines.join('\n');
+}
+function qualityText(){
+  const lines=[];
+  lines.push(`سجل مواءمة وجودة الدرس`);
+  lines.push(`جامعة الأمير مساعد بن عبدالرحمن | الكلية التطبيقية`);
+  lines.push(`${val('program')} | ${val('course')} | ${val('lessonTitle')} | ${val('week')}`);
+  lines.push(`\nمصفوفة المواءمة:`);
+  getOutcomes().forEach(x=>lines.push(`${x.clo} | ${x.lesson} | بلوم: ${x.bloom} | النشاط: ${x.activity} | التقييم: ${x.assess} | المستهدف: ${x.target} | الدليل: ${x.evidence}`));
+  lines.push(`\nالتقييم التكويني: ${val('formAssessment')}`);
+  lines.push(`التقييم الختامي: ${val('summAssessment')}`);
+  lines.push(`التغذية الراجعة: ${val('feedback')}`);
+  lines.push(`حفظ الأدلة: ${val('evidenceStore')}`);
+  lines.push(`\nالتحسين بعد التنفيذ: تحقق فعلي ${val('actualAchievement')||'—'}% | الفجوة: ${val('gap')||'—'} | الإجراء: ${val('improvement')||'—'}`);
+  const c=qualityChecks(), score=Math.round(c.filter(x=>x.ok).length/c.length*100);
+  lines.push(`\nمؤشر اكتمال الخطة: ${score}%`);
+  return lines.join('\n');
+}
+function copyText(txt){
+  if(navigator.clipboard && location.protocol!=='file:'){navigator.clipboard.writeText(txt).then(()=>showToast('تم النسخ'))}
+  else{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast('تم النسخ')}catch(e){showToast('تعذر النسخ تلقائيًا')}
+    ta.remove();
+  }
+}
+function copyStudent(){renderOutputs();copyText(studentText())}
+function copyQuality(){renderOutputs();copyText(qualityText())}
+
+function renderOutputs(){
+  const o=getOutcomes(), acts=getActivities(), c=qualityChecks(), score=Math.round(c.filter(x=>x.ok).length/c.length*100);
+  $('oStudentTitle').textContent=val('lessonTitle')||'بطاقة الدرس للطالب';
+  $('studentBody').innerHTML=`
+    ${metaHtml()}
+    <h3 style="color:var(--navy);margin:8px 0 10px">ماذا ستتعلم اليوم؟</h3>
+    ${o.length?o.map((x,i)=>`<div class="outcome-box"><b>${i+1}. ${esc(x.student||x.lesson||'ناتج تعلم')}</b><p>${x.clo?`مرتبط بناتج المقرر: <strong>${esc(x.clo)}</strong>`:''}</p></div>`).join(''):'<p class="empty">لم تُضف نواتج تعلم بعد.</p>'}
+    <h3 style="color:var(--navy);margin:20px 0 10px">كيف ستتعلم؟</h3>
+    ${acts.length?`<div class="table-wrap"><table><thead><tr><th>المرحلة</th><th>ما ستفعله</th><th>الوقت</th><th>الأداة/المنصة</th></tr></thead><tbody>${acts.map(a=>`<tr><td>${esc(a.stage)}</td><td>${esc(a.desc)||'—'}</td><td>${a.min} د</td><td>${esc(a.tool)||'—'}</td></tr>`).join('')}</tbody></table></div>`:'<p class="empty">لم تُضف أنشطة بعد.</p>'}
+    <h3 style="color:var(--navy);margin:20px 0 10px">كيف سيُقاس تعلمك؟</h3>
+    ${o.length?`<div class="table-wrap"><table><thead><tr><th>الناتج</th><th>أداة التقييم</th><th>معيار النجاح</th></tr></thead><tbody>${o.map(x=>`<tr><td>${esc(x.student||x.lesson)||'—'}</td><td>${esc(x.assess)||'—'}</td><td>${esc(x.target)||'—'}</td></tr>`).join('')}</tbody></table></div>`:''}
+    ${val('prereq')?`<h3 style="color:var(--navy);margin:20px 0 8px">قبل الدرس</h3><p>${esc(val('prereq')).replace(/\n/g,'<br>')}</p>`:''}
+    ${val('resources')?`<h3 style="color:var(--navy);margin:20px 0 8px">المصادر</h3><p>${esc(val('resources')).replace(/\n/g,'<br>')}</p>`:''}
+    <div class="success" style="margin-top:16px"><strong>هدف البطاقة:</strong> أن يعرف الطالب مسبقًا ماذا سيتعلم، ماذا سيفعل، وكيف سيُقاس نجاحه في الدرس.</div>
+    ${rightsHtml()}`;
+  $('qualityBody').innerHTML=`
+    ${metaHtml()}
+    <div class="statusline" style="margin-bottom:16px">
+      <div class="kpi"><b>${score}%</b><span>مؤشر اكتمال الخطة</span></div>
+      <div class="kpi"><b>${o.length}</b><span>نواتج الدرس</span></div>
+      <div class="kpi"><b>${acts.reduce((s,a)=>s+a.min,0)}</b><span>دقائق مخططة</span></div>
+      <div class="kpi"><b>${val('actualAchievement')?esc(val('actualAchievement'))+'%':'—'}</b><span>تحقق فعلي بعد التنفيذ</span></div>
+    </div>
+    <h3 style="color:var(--navy);margin:8px 0 10px">مصفوفة المواءمة</h3>
+    <div class="table-wrap"><table><thead><tr><th>CLO</th><th>ناتج الدرس</th><th>المجال/بلوم</th><th>النشاط</th><th>التقييم</th><th>المستهدف</th><th>الدليل</th></tr></thead><tbody>
+      ${o.length?o.map(x=>`<tr><td>${esc(x.clo)||'—'}</td><td>${esc(x.lesson)||'—'}</td><td>${esc(x.domain)}<br><span class="smallprint">${esc(x.bloom)}</span></td><td>${esc(x.activity)||'—'}</td><td>${esc(x.assess)||'—'}</td><td>${esc(x.target)||'—'}</td><td>${esc(x.evidence)||'—'}</td></tr>`).join(''):'<tr><td colspan="7">لم تُضف بيانات بعد.</td></tr>'}
+    </tbody></table></div>
+    <h3 style="color:var(--navy);margin:20px 0 10px">خطة التنفيذ الزمنية</h3>
+    <div class="table-wrap"><table><thead><tr><th>#</th><th>المرحلة</th><th>الطلاب يفعلون</th><th>الاستراتيجية</th><th>الأداة</th><th>الوقت</th><th>الدليل</th></tr></thead><tbody>
+      ${acts.length?acts.map(a=>`<tr><td>${a.n}</td><td>${esc(a.stage)}</td><td>${esc(a.desc)||'—'}</td><td>${esc(a.strategy)||'—'}</td><td>${esc(a.tool)||'—'}</td><td>${a.min} د</td><td>${esc(a.evidence)||'—'}</td></tr>`).join(''):'<tr><td colspan="7">لم تُضف أنشطة بعد.</td></tr>'}
+    </tbody></table></div>
+    <h3 style="color:var(--navy);margin:20px 0 10px">التقييم والتوثيق</h3>
+    <div class="meta">
+      <div><b>التقييم القبلي</b><span>${esc(val('preAssessment'))||'—'}</span></div>
+      <div><b>التقييم التكويني</b><span>${esc(val('formAssessment'))||'—'}</span></div>
+      <div><b>التقييم الختامي</b><span>${esc(val('summAssessment'))||'—'}</span></div>
+      <div><b>نوع القياس</b><span>${esc(val('measureType'))||'—'}</span></div>
+      <div><b>التغذية الراجعة</b><span>${esc(val('feedback'))||'—'}</span></div>
+      <div><b>حفظ الأدلة</b><span>${esc(val('evidenceStore'))||'—'}</span></div>
+      <div><b>نموذج إجابة/معيار أداء</b><span>${esc(val('answerKey'))||'—'}</span></div>
+      <div><b>المراجعة القبلية</b><span>${esc(val('preReview'))||'—'}</span></div>
+    </div>
+    <h3 style="color:var(--navy);margin:20px 0 10px">التحقق قبل التنفيذ</h3>
+    <div class="qa-list">${c.map(x=>`<div class="qa-item ${x.ok?'ok':'warn'}"><div class="qa-dot">${x.ok?'✓':'!'}</div><div><strong>${x.title}</strong><span>${x.desc}</span></div></div>`).join('')}</div>
+    <h3 style="color:var(--navy);margin:20px 0 10px">الانعكاس والتحسين</h3>
+    <div class="meta">
+      <div><b>تاريخ التنفيذ</b><span>${esc(val('lessonDate'))||'—'}</span></div>
+      <div><b>الحضور</b><span>${esc(val('attendance'))||'—'}</span></div>
+      <div><b>التحقق الفعلي</b><span>${val('actualAchievement')?esc(val('actualAchievement'))+'%':'—'}</span></div>
+      <div><b>المتابعة</b><span>${esc(val('followup'))||'—'}</span></div>
+    </div>
+    <p><strong>ما الذي نجح؟</strong><br>${esc(val('workedWell'))||'—'}</p>
+    <p><strong>الفجوة/التحدي:</strong><br>${esc(val('gap'))||'—'}</p>
+    <p><strong>إجراء التحسين:</strong><br>${esc(val('improvement'))||'—'}</p>
+    <div class="notice">مؤشر الاكتمال أعلاه أداة تنظيمية لمراجعة عناصر الخطة، وليس حكمًا رسميًا على جودة المقرر أو الاعتماد.</div>
+    ${rightsHtml()}`;
+}
+
+function collectState(){
+  const ids=['program','course','courseCode','level','week','duration','lessonTitle','deliveryMode','instructor','section','prereq','resources','rightsName','rightsText','preAssessment','formAssessment','summAssessment','feedback','evidenceStore','answerKey','preReview','measureType','actualAchievement','attendance','lessonDate','workedWell','gap','improvement','followup'];
+  const s={fields:{},checks:{},outcomes:getOutcomes(),activities:getActivities()};
+  ids.forEach(id=>s.fields[id]=val(id));
+  ['q1','q2','q3','q4','q5','q6','q7','q8'].forEach(id=>s.checks[id]=checked(id));
+  return s;
+}
+function applyState(s){
+  if(!s)return;
+  Object.entries(s.fields||{}).forEach(([k,v])=>{if($(k))$(k).value=v});
+  Object.entries(s.checks||{}).forEach(([k,v])=>{if($(k))$(k).checked=v});
+  $('outcomesList').innerHTML=''; $('activitiesList').innerHTML=''; outcomeN=0;activityN=0;
+  (s.outcomes||[]).forEach(addOutcome);(s.activities||[]).forEach(addActivity);
+  updateAll();
+}
+function saveDraft(){localStorage.setItem('pmauLessonPlanner',JSON.stringify(collectState()));showToast('تم حفظ المسودة على هذا الجهاز')}
+function loadDraft(){const s=localStorage.getItem('pmauLessonPlanner');if(!s)return showToast('لا توجد مسودة محفوظة');applyState(JSON.parse(s));showToast('تمت استعادة المسودة')}
+function goOutput(){renderOutputs();goPanel('output')}
+
+function clearPrintMode(){document.body.classList.remove('print-student-only','print-quality-only')}
+function printAll(){renderOutputs();clearPrintMode();window.print()}
+function printStudent(){renderOutputs();clearPrintMode();document.body.classList.add('print-student-only');window.print();setTimeout(clearPrintMode,600)}
+function printQuality(){renderOutputs();clearPrintMode();document.body.classList.add('print-quality-only');window.print();setTimeout(clearPrintMode,600)}
+
+document.querySelectorAll('input,textarea,select').forEach(e=>e.addEventListener('input',updateAll));
+window.addEventListener('beforeprint',renderOutputs);
+
+addOutcome();
+addActivity({stage:'تهيئة/تنشيط معرفة سابقة',min:'10'});
+addActivity({stage:'شرح/بناء المفهوم',min:'35'});
+addActivity({stage:'نشاط تطبيقي',min:'45'});
+addActivity({stage:'مناقشة/تغذية راجعة',min:'20'});
+addActivity({stage:'إغلاق/تقويم ختامي',min:'10'});
+updateAll();
+</script>
+</body>
+</html>
