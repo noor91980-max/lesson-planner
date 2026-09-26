@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>مخطط الدرس السريع | الكلية التطبيقية</title>
+<style>
+:root{
+  --navy:#162A63;--navy2:#213B7A;--teal:#17B7B1;--violet:#6042B6;
+  --ink:#172033;--muted:#657089;--line:#E4E9F2;--soft:#F6F8FC;--white:#fff;
+  --ok:#168B66;--warn:#B26A00;--danger:#B63E55;--shadow:0 14px 36px rgba(22,42,99,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#F7F9FD,#EEF3FA);color:var(--ink);font-family:Tahoma,Arial,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1320px;margin:auto;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 20px}
+.brand h1{margin:0;color:var(--navy);font-size:18px}.brand p{margin:3px 0 0;font-size:11px;color:var(--muted)}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 12px;border-radius:12px;font-weight:700}
+.btn.primary{background:linear-gradient(135deg,var(--navy),var(--violet));color:#fff;border:0}
+.btn.teal{background:linear-gradient(135deg,var(--teal),#0A9EA3);color:#fff;border:0}
+.hero{margin:20px;border-radius:25px;padding:24px;background:linear-gradient(125deg,var(--navy),var(--navy2) 55%,var(--violet));color:#fff;box-shadow:var(--shadow)}
+.hero h2{margin:5px 0 8px;font-size:28px}.hero p{margin:0;line-height:1.8;color:rgba(255,255,255,.88)}
+.guide{margin:0 20px 18px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.guide-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,#F4F8FD,#F7FBFB)}
+.guide-head h3{margin:0;color:var(--navy);font-size:18px}
+.guide-head p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.guide-toggle{border:1px solid var(--line);background:#fff;color:var(--navy);padding:7px 10px;border-radius:10px;font-weight:700}
+.guide-body{padding:18px}
+.guide-intro{padding:12px 14px;border-radius:13px;background:#F3FBFA;border:1px solid #CFEDE9;color:#245E59;font-size:12px;line-height:1.8;margin-bottom:14px}
+.guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.guide-step{border:1px solid var(--line);border-radius:15px;padding:13px;background:#FCFDFE}
+.guide-step .n{width:30px;height:30px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;margin-bottom:8px}
+.guide-step h4{margin:0 0 7px;color:var(--navy);font-size:13px}
+.guide-step p{margin:5px 0;font-size:11px;line-height:1.7;color:#4C5870}
+.guide-step b{color:#27344F}
+.guide-source{margin-top:8px;padding:8px 9px;border-radius:10px;background:#F6F8FC;border:1px solid var(--line);font-size:10px;line-height:1.6;color:#667188}
+.guide-result{margin-top:14px;padding:13px 14px;border-radius:13px;background:#FFF8EA;border:1px solid #F0DDB7;color:#76520E;font-size:11px;line-height:1.8}
+
+.layout{display:grid;grid-template-columns:250px 1fr;gap:18px;padding:0 20px 28px}
+.sidebar{position:sticky;top:78px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:20px;padding:11px;box-shadow:var(--shadow)}
+.navbtn{width:100%;border:0;background:transparent;text-align:right;padding:12px;border-radius:12px;font-weight:700;color:#566176;margin:3px 0}
+.navbtn.active{background:#EEF4FB;color:var(--navy)}
+.score{margin-top:12px;padding:13px;background:var(--soft);border-radius:14px}
+.meter{height:8px;background:#E5EAF2;border-radius:999px;overflow:hidden}.meter div{height:100%;background:linear-gradient(90deg,var(--teal),var(--violet));width:0}
+.main{min-width:0}.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.panel.active{display:block}
+h3{color:var(--navy);margin:0 0 5px}.sub{color:var(--muted);font-size:12px;line-height:1.7;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}.c3{grid-column:span 3}.c2{grid-column:span 2}
+.field label{display:block;font-size:12px;font-weight:700;color:#4C5870;margin-bottom:5px}
+input,select,textarea{width:100%;border:1px solid #DCE3EE;border-radius:11px;padding:10px 11px;outline:none;background:#fff}
+textarea{min-height:75px;resize:vertical;line-height:1.6}.ltopic{min-height:110px;font-size:14px}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(23,183,177,.1)}
+.card{border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;background:#FCFDFE}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700;background:#EEF3FF;color:var(--navy)}
+.iconbtn{border:0;background:#FFF0F3;color:var(--danger);width:30px;height:30px;border-radius:9px;font-weight:900}
+.preview{padding:12px 14px;background:#F6FBFB;border-right:4px solid var(--teal);border-radius:10px;margin-top:10px;font-size:13px;line-height:1.7}
+.quick{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.chip{padding:6px 9px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:11px;color:#4D5970}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.kpi{min-width:130px;padding:10px 12px;background:var(--soft);border:1px solid var(--line);border-radius:13px}.kpi b{display:block;color:var(--navy);font-size:19px}.kpi span{font-size:10px;color:var(--muted)}
+.check{display:flex;gap:8px;padding:8px 0}.check input{width:auto;margin-top:3px}.check label{font-size:12px;line-height:1.6}
+.output{border:1px solid var(--line);border-radius:18px;overflow:hidden}.outhead{background:linear-gradient(120deg,var(--navy),var(--violet));color:#fff;padding:20px}.outbody{padding:18px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.meta div{padding:9px;background:var(--soft);border:1px solid var(--line);border-radius:10px}.meta b{display:block;font-size:10px;color:var(--muted);margin-bottom:3px}.meta span{font-size:12px;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid var(--line);padding:8px;vertical-align:top}th{background:#F0F4FA;color:var(--navy)}
+.rights{margin-top:16px;padding-top:10px;border-top:1px solid var(--line);font-size:10px;color:#70798B;line-height:1.7}
+.note{padding:11px 13px;border-radius:12px;background:#FFF8EA;border:1px solid #F0DDB7;color:#7A5510;font-size:11px;line-height:1.6}
+.hidden{display:none!important}
+@media(max-width:900px){.guide-grid{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.sidebar{position:static;display:grid;grid-template-columns:1fr 1fr}.score{grid-column:1/-1}.c8,.c6,.c4,.c3,.c2{grid-column:span 12}.meta{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.guide{margin:0 12px 14px}.guide-grid{grid-template-columns:1fr}.guide-head{align-items:flex-start}.topbar-inner{flex-direction:column;align-items:flex-start}.hero{margin:12px;padding:18px}.hero h2{font-size:23px}.layout{padding:0 12px 20px}.panel{padding:14px}.sidebar{grid-template-columns:1fr 1fr}.meta{grid-template-columns:1fr}.rights{text-align:center}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}.topbar,.hero,.guide,.sidebar,.no-print{display:none!important}.layout{display:block;padding:0}.panel{display:none!important;border:0;box-shadow:none}.panel#result{display:block!important;padding:0}.output{border:0}.output + .output{break-before:page}.outhead{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.site-rights{
+  margin:18px 20px 28px;
+  padding:14px 16px;
+  text-align:center;
+  color:#5f6878;
+  font-size:11px;
+  line-height:1.8;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 8px 22px rgba(22,42,99,.06)
+}
+.site-rights strong{color:var(--navy)}
+@media(max-width:600px){.site-rights{margin:14px 12px 20px}}
+@media print{.site-rights{display:none!important}}
+.top-rights{
+  margin:10px 20px 0;
+  padding:10px 14px;
+  background:#F4F8FD;
+  border:1px solid var(--line);
+  border-radius:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#5f6878;
+  font-size:11px;
+  line-height:1.7;
+}
+.top-rights strong{color:var(--navy)}
+.top-rights span{white-space:nowrap}
+@media(max-width:600px){
+  .top-rights{margin:10px 12px 0;display:block}
+  .top-rights span{display:block;white-space:normal}
+}
+@media print{.top-rights{display:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+<div class="topbar-inner">
+  <div class="brand">
+    <h1>مخطط الدرس السريع</h1>
+    <p>جامعة الأمير مساعد بن عبدالرحمن · الكلية التطبيقية</p>
+  </div>
+  <div class="actions no-print">
+    <button class="btn" onclick="saveDraft()">حفظ مسودة</button>
+    <button class="btn teal" onclick="showPanel('result')">معاينة</button>
+    <button class="btn primary" onclick="printResult()">PDF</button>
+  </div>
+</div>
+</header>
+
+<div class="top-rights">
+  <strong>إعداد وتصميم: أ. نور أحمد الزهراني</strong>
+  <span>رئيسة دبلوم الأمن والسلامة</span>
+  <span>الكلية التطبيقية</span>
+  <span>جميع حقوق تصميم وإعداد الأداة محفوظة.</span>
+</div>
+
+
+<section class="hero">
+<h2>أداة توليد تلقائي لخطة الدرس</h2>
+</section>
+
+<section class="guide no-print" id="userGuide">
+  <div class="guide-head">
+    <div>
+      <h3>كيف تستخدم الأداة لأول مرة؟</h3>
+      <p>دليل سريع: ماذا تعبئ، من أين تجيب المعلومة، وماذا ستحصل عليه في النهاية.</p>
+    </div>
+    <button class="guide-toggle" id="guideToggle" onclick="toggleGuide()">إخفاء الدليل</button>
+  </div>
+
+  <div class="guide-body" id="guideBody">
+    <div class="guide-intro">
+      <strong>قبل أن تبدأ:</strong>
+      افتح <strong>توصيف المقرر المعتمد</strong> وخطة توزيع المحتوى/الأسابيع، ثم جهّز عنوان درس اليوم ومدته.
+      لا تحتاج إلى كتابة تقرير جودة منفصل؛ الأداة تحسب صفحة الجودة تلقائيًا من نفس البيانات.
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-step">
+        <div class="n">1</div>
+        <h4>بيانات الدرس</h4>
+        <p><b>ماذا تدخل؟</b> اسم المقرر، الأسبوع، عنوان الدرس، المدة، ونمط التقديم.</p>
+        <div class="guide-source"><b>من أين آخذها؟</b><br>خطة المقرر/توزيع الأسابيع + جدول المحاضرات + عنوان موضوع الأسبوع.</div>
+      </div>
+
+      <div class="guide-step">
+        <div class="n">2</div>
+        <h4>رمز ناتج التعلم</h4>
+        <p><b>ماذا تختار؟</b> الرمز مثل: م1، م2، ع1، ع2، ق1… ثم فعل مناسب وموضوع الناتج.</p>
+        <div class="guide-source"><b>من أين آخذ الرمز؟</b><br>من جدول نواتج تعلم المقرر في <strong>توصيف المقرر المعتمد</strong>. لا تنشئ رمزًا جديدًا من عندك.</div>
+      </div>
+
+      <div class="guide-step">
+        <div class="n">3</div>
+        <h4>النشاط والتقييم</h4>
+        <p><b>ماذا تختار؟</b> النشاط، أداة التقييم، المستهدف، والمنصة/الأداة المستخدمة.</p>
+        <div class="guide-source"><b>من أين أحددها؟</b><br>اختر ما يناسب مستوى الناتج: تذكر/فهم → أسئلة قصيرة، تطبيق/تحليل → حالة أو نشاط تطبيقي.</div>
+      </div>
+
+      <div class="guide-step">
+        <div class="n">4</div>
+        <h4>خطة التنفيذ</h4>
+        <p><b>ماذا تختار؟</b> مراحل الدرس والوقت لكل مرحلة.</p>
+        <div class="guide-source"><b>من أين أحددها؟</b><br>حسب مدة المحاضرة الفعلية. اجعل مجموع الدقائق مساويًا لمدة الدرس قدر الإمكان.</div>
+      </div>
+    </div>
+
+    <div class="guide-result">
+      <strong>ما الناتج النهائي؟</strong><br>
+      عند الضغط على <strong>«معاينة»</strong> أو <strong>«PDF»</strong> تنتج الأداة تلقائيًا:
+      <strong>بطاقة تخطيط الدرس</strong> + <strong>مصفوفة نواتج التعلم والتقييم</strong> +
+      <strong>خطة التنفيذ الزمنية</strong> + <strong>نسبة الاستيفاء الآلي للجودة</strong> +
+      <strong>صفحة الاعتماد والجودة</strong> التي توضح العناصر المستوفاة والناقصة والتوصية النهائية.
+      لا يحتاج الأستاذ إلى كتابة صفحة الجودة يدويًا.
+    </div>
+  </div>
+</section>
+
+<div class="layout">
+<aside class="sidebar no-print">
+  <button class="navbtn active" data-p="basic" onclick="showPanel('basic')">1. بيانات الدرس</button>
+  <button class="navbtn" data-p="los" onclick="showPanel('los')">2. نواتج التعلم</button>
+  <button class="navbtn" data-p="plan" onclick="showPanel('plan')">3. التنفيذ والتقييم</button>
+  <button class="navbtn" data-p="result" onclick="showPanel('result')">4. النتيجة</button>
+  <div class="score"><div style="display:flex;justify-content:space-between"><b>اكتمال الخطة</b><b id="scoreText">0%</b></div><div class="meter"><div id="scoreBar"></div></div></div>
+</aside>
+
+<main class="main">
+<section class="panel active" id="basic">
+<h3>1. بيانات الدرس</h3>
+<p class="sub">فقط البيانات الأساسية التي تتكرر في كل درس.</p>
+<div class="grid">
+  <div class="field c6"><label>البرنامج</label><input id="program" placeholder="دبلوم الأمن والسلامة"></div>
+  <div class="field c6"><label>المقرر</label><input id="course" placeholder="مثال: السلامة والصحة المهنية"></div>
+  <div class="field c4"><label>الأسبوع</label><input id="week" placeholder="الأسبوع الرابع"></div>
+  <div class="field c4"><label>مدة الدرس</label><select id="duration">
+<option value="60">ساعة واحدة</option>
+<option value="120" selected>ساعتان</option>
+<option value="180">3 ساعات</option>
+<option value="240">4 ساعات</option>
+<option value="300">5 ساعات</option>
+</select></div>
+  <div class="field c4"><label>نمط التقديم</label><select id="mode"><option>تعلم إلكتروني متزامن</option><option>تعلم إلكتروني غير متزامن</option><option>حضوري</option><option>مدمج</option></select></div>
+  <div class="field c8"><label>عنوان الدرس</label><input id="title" placeholder="عنوان الدرس"></div>
+  <div class="field c4"><label>عضو هيئة التدريس</label><input id="instructor" placeholder="الاسم"></div>
+  <div class="field c6"><label>معرفة سابقة <span style="font-weight:400;color:var(--muted)">(اختياري)</span></label>
+    <select id="prior">
+      <option value="">لا يوجد / لا يلزم</option>
+      <option>مراجعة مفاهيم الدرس السابق</option>
+      <option>معرفة تعريفات أساسية مرتبطة بالموضوع</option>
+      <option>إكمال قراءة أو مشاهدة مادة قبلية</option>
+    </select>
+  </div>
+  <div class="field c6"><label>مصدر التعلم الرئيسي</label>
+    <select id="resource">
+      <option>شرائح المحاضرة</option><option>شرائح + فيديو</option><option>شرائح + حالة دراسية</option><option>شرائح + نشاط تفاعلي</option><option>LMS + مصادر إثرائية</option>
+    </select>
+  </div>
+</div>
+</section>
+
+<section class="panel" id="los">
+<h3>2. نواتج التعلم</h3>
+<p class="sub">بدل كتابة النص كاملًا: اختاري الرمز من التوصيف، ثم الفعل، ثم اكتبي فقط موضوع الناتج.</p>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+  <b style="color:var(--navy)">نواتج الدرس</b>
+  <button class="btn teal" onclick="addLO()">＋ إضافة ناتج</button>
+</div>
+<div id="loList"></div>
+<div class="note">الرموز في القائمة قابلة للتعديل لاحقًا لتطابق رموز توصيفاتكم حرفيًا. الآن وضعت أمثلة عربية شائعة: م، ع، ق.</div>
+</section>
+
+<section class="panel" id="plan">
+<h3>3. التنفيذ والتقييم</h3>
+<p class="sub">3 مراحل تكفي لمعظم الدروس: بداية، تطبيق، إغلاق. يمكن إضافة مرحلة رابعة إذا احتجتِ.</p>
+<div id="actList"></div>
+<button class="btn teal" onclick="addActivity()">＋ إضافة مرحلة</button>
+
+<div class="kpis">
+  <div class="kpi"><b id="mins">0</b><span>دقائق مخططة</span></div>
+  <div class="kpi"><b id="diff">0</b><span>الفرق عن مدة الدرس</span></div>
+</div>
+
+<div style="margin-top:18px" class="grid">
+  <div class="field c6"><label>مكان حفظ الدليل</label>
+    <select id="store"><option>LMS / نظام إدارة التعلم</option><option>ملف أدلة المقرر</option><option>Microsoft Forms</option><option>Teams</option><option>ملف الجودة</option></select>
+  </div>
+  <div class="field c6"><label>نوع التغذية الراجعة</label>
+    <select id="feedback"><option>فورية أثناء الدرس</option><option>تلقائية بعد الاختبار</option><option>تعليق مكتوب مختصر</option><option>Rubric / سلم تقدير</option><option>مناقشة جماعية</option></select>
+  </div>
+</div>
+
+
+<h3 style="margin-top:20px">التحقق الآلي للجودة</h3>
+<div class="note">
+لا يحتاج عضو هيئة التدريس إلى تعبئة قائمة جودة منفصلة؛ تحسب الأداة الاستيفاء تلقائيًا من بيانات الدرس ونواتج التعلم وخطة التنفيذ والتقييم والتوثيق.
+</div>
+<div class="kpis" style="margin-top:12px">
+  <div class="kpi"><b id="autoQualityScore">0%</b><span>نسبة الاستيفاء الآلي</span></div>
+  <div class="kpi"><b id="autoQualityStatus">—</b><span>حالة الخطة</span></div>
+</div>
+</section>
+
+<section class="panel" id="result">
+<div class="actions no-print" style="margin-bottom:12px">
+  <button class="btn" onclick="copyText()">نسخ النتيجة</button>
+  <button class="btn primary" onclick="printResult()">حفظ PDF</button>
+</div>
+<article class="output">
+<div class="outhead"><h2 id="outTitle" style="margin:0 0 5px">بطاقة تخطيط الدرس</h2><div style="font-size:12px;opacity:.85">جامعة الأمير مساعد بن عبدالرحمن · الكلية التطبيقية</div></div>
+<div class="outbody" id="outBody"></div>
+</article>
+<article class="output" style="margin-top:16px" id="qualityApprovalCard">
+<div class="outhead"><h2 style="margin:0 0 5px">صفحة الاعتماد والجودة</h2><div style="font-size:12px;opacity:.85">تُنشأ تلقائيًا من بيانات خطة الدرس</div></div>
+<div class="outbody" id="qualityApprovalBody"></div>
+</article>
+</section>
+</main>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id), val=id=>($(id)?.value||'').trim();
+function toggleGuide(){
+  const body=$('guideBody'), btn=$('guideToggle');
+  const hidden=body.classList.toggle('hidden');
+  btn.textContent=hidden?'إظهار طريقة الاستخدام':'إخفاء الدليل';
+  localStorage.setItem('lessonPlannerGuideHidden', hidden?'1':'0');
+}
+let loN=0, actN=0;
+
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+  $(id).classList.add('active');
+  document.querySelector(`.navbtn[data-p="${id}"]`)?.classList.add('active');
+  if(id==='result') render();
+  window.scrollTo({top:70,behavior:'smooth'});
+}
+function codeOptions(sel=''){
+  const codes=['م1','م2','م3','م4','ع1','ع2','ع3','ع4','ق1','ق2','ق3'];
+  return codes.map(x=>`<option ${x===sel?'selected':''}>${x}</option>`).join('');
+}
+function verbOptions(sel=''){
+  const verbs=['يعرّف','يشرح','يميز','يصنف','يطبق','يحلل','يقارن','يقيّم','يختار','يصمم','ينفذ'];
+  return verbs.map(x=>`<option ${x===sel?'selected':''}>${x}</option>`).join('');
+}
+function assessOptions(sel=''){
+  const a=[
+  'اختيار من متعدد',
+  'صح/خطأ',
+  'مطابقة',
+  'تصنيف',
+  'ترتيب خطوات',
+  'سؤال قصير',
+  'سؤال مقالي قصير',
+  'تحليل حالة',
+  'حل مشكلة',
+  'سيناريو تطبيقي',
+  'نشاط تطبيقي',
+  'ملاحظة أداء',
+  'قائمة تحقق',
+  'مناقشة مقننة',
+  'مهمة فردية قصيرة',
+  'مهمة جماعية قصيرة',
+  'عرض/أداء',
+  'Exit Ticket',
+  'اختبار قصير',
+  'مشروع مصغر',
+  'Rubric / سلم تقدير'
+];
+  return a.map(x=>`<option ${x===sel?'selected':''}>${x}</option>`).join('');
+}
+function addLO(data={}){
+  loN++;
+  const d=document.createElement('div'); d.className='card lo-card';
+  d.innerHTML=`
+  <div class="card-head"><span class="badge">ناتج ${loN}</span><button class="iconbtn" onclick="this.closest('.lo-card').remove();updateAll()">×</button></div>
+  <div class="grid">
+    <div class="field c2"><label>رمز الناتج</label><select class="lcode">${codeOptions(data.code||'')}</select></div>
+    <div class="field c3"><label>الفعل</label><select class="lverb">${verbOptions(data.verb||'')}</select></div>
+    <div class="field c12"><label>موضوع الناتج</label><textarea class="ltopic" placeholder="مثال: أنواع المخاطر المهنية أو تطبيق هرم السيطرة على المخاطر">${data.topic||''}</textarea></div>
+    <div class="field c4"><label>أداة التقييم</label><select class="lassess">${assessOptions(data.assess||'')}</select></div>
+    <div class="field c4"><label>المستهدف</label><select class="ltarget"><option>70%</option><option selected>80%</option><option>85%</option><option>90%</option><option>تحقيق 3 من 4 معايير</option></select></div>
+    <div class="field c4"><label>النشاط المرتبط</label><select class="lactivity"><option>سؤال تفاعلي</option><option>مناقشة</option><option>تحليل حالة</option><option>تصنيف أمثلة</option><option>نشاط فردي</option><option>نشاط جماعي</option><option>محاكاة</option></select></div>
+  </div>
+  <div class="preview lpreview"></div>`;
+  $('loList').appendChild(d);
+  d.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',updateAll));
+  updateAll();
+}
+function getLOs(){
+  return [...document.querySelectorAll('.lo-card')].map((c,i)=>({
+    n:i+1,code:c.querySelector('.lcode').value,verb:c.querySelector('.lverb').value,
+    topic:c.querySelector('.ltopic').value.trim(),assess:c.querySelector('.lassess').value,
+    target:c.querySelector('.ltarget').value,activity:c.querySelector('.lactivity').value
+  }));
+}
+function updatePreviews(){
+  document.querySelectorAll('.lo-card').forEach(c=>{
+    const code=c.querySelector('.lcode').value,verb=c.querySelector('.lverb').value,topic=c.querySelector('.ltopic').value.trim();
+    c.querySelector('.lpreview').innerHTML=`<b>${code}</b> — أن <b>${verb}</b> الطالب ${topic||'<span style="color:#8A94A7">[موضوع الناتج]</span>'}.`;
+  });
+}
+function addActivity(data={}){
+  actN++;
+  const d=document.createElement('div'); d.className='card act-card';
+  d.innerHTML=`
+  <div class="card-head"><span class="badge">مرحلة ${actN}</span><button class="iconbtn" onclick="this.closest('.act-card').remove();updateAll()">×</button></div>
+  <div class="grid">
+    <div class="field c3"><label>المرحلة</label><select class="astage"><option>تهيئة</option><option>شرح/بناء المفهوم</option><option>تطبيق</option><option>مناقشة</option><option>تقويم تكويني</option><option>إغلاق/تقويم ختامي</option></select></div>
+    <div class="field c3"><label>النشاط</label><select class="atype"><option>سؤال افتتاحي</option><option>شرح تفاعلي</option><option>تصنيف أمثلة</option><option>تحليل حالة</option><option>نشاط فردي</option><option>نشاط جماعي</option><option>تصويت</option><option>Exit Ticket</option><option>اختبار قصير</option></select></div>
+    <div class="field c3"><label>المنصة/الأداة</label><select class="atool"><option>Teams</option><option>LMS</option><option>Microsoft Forms</option><option>Whiteboard</option><option>Canva</option><option>بدون أداة</option></select></div>
+    <div class="field c3"><label>الدقائق</label><select class="amin">${[5,10,15,20,25,30,40,45,60,75,90,120].map(x=>`<option ${String(x)==String(data.min||'')?'selected':''}>${x}</option>`).join('')}</select></div>
+  </div>`;
+  $('actList').appendChild(d);
+  if(data.stage) d.querySelector('.astage').value=data.stage;
+  if(data.type) d.querySelector('.atype').value=data.type;
+  if(data.tool) d.querySelector('.atool').value=data.tool;
+  d.querySelectorAll('select').forEach(e=>e.addEventListener('input',updateAll));
+  updateAll();
+}
+function getActs(){
+  return [...document.querySelectorAll('.act-card')].map((c,i)=>({n:i+1,stage:c.querySelector('.astage').value,type:c.querySelector('.atype').value,tool:c.querySelector('.atool').value,min:Number(c.querySelector('.amin').value)}));
+}
+function updateTime(){
+  const t=getActs().reduce((s,a)=>s+a.min,0), d=Number(val('duration')||0), diff=d-t;
+  $('mins').textContent=t; $('diff').textContent=(diff>0?'+':'')+diff;
+  $('diff').style.color=diff===0?'var(--ok)':Math.abs(diff)<=10?'var(--warn)':'var(--danger)';
+}
+function qualityEvaluation(){
+  const los=getLOs(), acts=getActs(), duration=Number(val('duration')||0);
+  const totalMins=acts.reduce((s,a)=>s+a.min,0);
+
+  const checks=[
+    {key:'basic',title:'اكتمال بيانات الدرس',ok:!!(val('course')&&val('week')&&val('title')&&val('instructor')),
+     note:'اسم المقرر والأسبوع وعنوان الدرس وعضو هيئة التدريس مكتملة.'},
+    {key:'lo',title:'ربط نواتج التعلم بالتوصيف',ok:los.length>0 && los.every(x=>x.code&&x.topic),
+     note:'كل ناتج يحتوي رمزًا من التوصيف وموضوعًا محددًا.'},
+    {key:'measurable',title:'قابلية قياس نواتج التعلم',ok:los.length>0 && los.every(x=>x.verb&&x.assess),
+     note:'كل ناتج يحتوي فعلًا قابلًا للقياس وأداة تقييم مرتبطة.'},
+    {key:'activity',title:'وجود نشاط تعلم مرتبط',ok:los.length>0 && los.every(x=>x.activity),
+     note:'كل ناتج مرتبط بنشاط تعلم.'},
+    {key:'target',title:'وجود مستهدف أداء',ok:los.length>0 && los.every(x=>x.target),
+     note:'تم تحديد مستهدف لكل ناتج.'},
+    {key:'time',title:'اتساق الزمن مع مدة الدرس',ok:acts.length>=3 && totalMins===duration,
+     note:`إجمالي الأنشطة ${totalMins} دقيقة مقابل مدة الدرس ${formatDuration(duration)}.`},
+    {key:'evidence',title:'تحديد التوثيق وحفظ الأدلة',ok:!!val('store'),
+     note:'تم تحديد مكان حفظ الدليل.'},
+    {key:'feedback',title:'تحديد آلية التغذية الراجعة',ok:!!val('feedback'),
+     note:'تم تحديد آلية التغذية الراجعة.'},
+    {key:'resource',title:'تحديد مصدر التعلم',ok:!!val('resource'),
+     note:'تم تحديد مصدر تعلم رئيسي.'}
+  ];
+
+  const score=Math.round(checks.filter(x=>x.ok).length/checks.length*100);
+  let status='غير جاهز';
+  let recommendation='تحتاج الخطة إلى استكمال العناصر الأساسية قبل الاعتماد.';
+  if(score>=90){
+    status='جاهز للاعتماد';
+    recommendation='الخطة مستوفية للعناصر الأساسية ويمكن رفعها للاعتماد.';
+  }else if(score>=70){
+    status='استكمال بسيط';
+    recommendation='الخطة جيدة وتحتاج إلى استكمال العناصر غير المستوفاة قبل الاعتماد النهائي.';
+  }
+  return {checks,score,status,recommendation,totalMins,duration};
+}
+function score(){
+  const q=qualityEvaluation(), p=q.score;
+  $('scoreText').textContent=p+'%';$('scoreBar').style.width=p+'%';
+  if($('autoQualityScore')) $('autoQualityScore').textContent=p+'%';
+  if($('autoQualityStatus')) $('autoQualityStatus').textContent=q.status;
+  return p;
+}
+function updateAll(){updatePreviews();updateTime();score()}
+function formatDuration(mins){
+  const n=Number(mins||0);
+  if(n===60) return 'ساعة واحدة';
+  if(n===120) return 'ساعتان';
+  if(n===180) return '3 ساعات';
+  if(n===240) return '4 ساعات';
+  if(n===300) return '5 ساعات';
+  return n+' دقيقة';
+}
+function evidenceFor(a){
+  const m={
+  'اختيار من متعدد':'نتيجة الاختبار',
+  'صح/خطأ':'نتيجة الاختبار',
+  'مطابقة':'نتيجة المطابقة',
+  'تصنيف':'إجابة التصنيف',
+  'ترتيب خطوات':'إجابة ترتيب الخطوات',
+  'سؤال قصير':'إجابة الطالب',
+  'سؤال مقالي قصير':'إجابة الطالب',
+  'تحليل حالة':'إجابة الحالة',
+  'حل مشكلة':'حل الطالب',
+  'سيناريو تطبيقي':'استجابة السيناريو',
+  'نشاط تطبيقي':'مخرج النشاط',
+  'ملاحظة أداء':'سجل الملاحظة',
+  'قائمة تحقق':'قائمة التحقق المكتملة',
+  'مناقشة مقننة':'سجل المشاركة',
+  'مهمة فردية قصيرة':'ملف المهمة',
+  'مهمة جماعية قصيرة':'مخرج المجموعة',
+  'عرض/أداء':'نتيجة الأداء',
+  'Exit Ticket':'إجابة بطاقة الخروج',
+  'اختبار قصير':'نتيجة الاختبار القصير',
+  'مشروع مصغر':'مخرج المشروع',
+  'Rubric / سلم تقدير':'درجة الـRubric'
+};
+  return m[a]||'دليل تنفيذ';
+}
+function meta(){
+  return `<div class="meta">
+    <div><b>البرنامج</b><span>${val('program')||'—'}</span></div><div><b>المقرر</b><span>${val('course')||'—'}</span></div>
+    <div><b>الأسبوع</b><span>${val('week')||'—'}</span></div><div><b>مدة الدرس</b><span>${formatDuration(val('duration'))}</span></div>
+    <div><b>نمط التقديم</b><span>${val('mode')}</span></div><div><b>عضو هيئة التدريس</b><span>${val('instructor')||'—'}</span></div>
+  </div>`;
+}
+function render(){
+  const los=getLOs(), acts=getActs(), p=score(); $('outTitle').textContent=val('title')||'بطاقة تخطيط الدرس';
+  $('outBody').innerHTML=`
+    ${meta()}
+    <h3 style="margin-top:18px">نواتج التعلم</h3>
+    ${los.length?los.map(x=>`<div class="preview"><b>${x.code}</b> — أن ${x.verb} الطالب ${x.topic||'—'}.<br><span style="font-size:11px;color:var(--muted)">النشاط: ${x.activity} · التقييم: ${x.assess} · المستهدف: ${x.target} · الدليل: ${evidenceFor(x.assess)}</span></div>`).join(''):'<p>لا توجد نواتج بعد.</p>'}
+    <h3 style="margin-top:18px">خطة التنفيذ</h3>
+    <table><thead><tr><th>المرحلة</th><th>النشاط</th><th>الأداة</th><th>الوقت</th></tr></thead><tbody>
+    ${acts.map(a=>`<tr><td>${a.stage}</td><td>${a.type}</td><td>${a.tool}</td><td>${a.min} د</td></tr>`).join('')}
+    </tbody></table>
+    <h3 style="margin-top:18px">التقييم والتوثيق</h3>
+    <div class="meta"><div><b>مكان حفظ الدليل</b><span>${val('store')}</span></div><div><b>التغذية الراجعة</b><span>${val('feedback')}</span></div><div><b>اكتمال الخطة</b><span>${p}%</span></div><div><b>مصدر التعلم</b><span>${val('resource')}</span></div></div>
+    <div class="rights"><strong>إعداد وتصميم: أ. نور أحمد الزهراني</strong><br>رئيسة دبلوم الأمن والسلامة<br>الكلية التطبيقية<br><span>جميع حقوق تصميم وإعداد الأداة محفوظة.</span></div>`;
+
+  const q=qualityEvaluation();
+  const missing=q.checks.filter(x=>!x.ok);
+  const today=new Date().toLocaleDateString('ar-SA');
+  $('qualityApprovalBody').innerHTML=`
+    ${meta()}
+    <div class="kpis" style="margin:14px 0">
+      <div class="kpi"><b>${q.score}%</b><span>نسبة الاستيفاء</span></div>
+      <div class="kpi"><b>${q.status}</b><span>حالة الخطة</span></div>
+      <div class="kpi"><b>${q.totalMins}</b><span>دقائق مخططة</span></div>
+      <div class="kpi"><b>${today}</b><span>تاريخ إنشاء التقرير</span></div>
+    </div>
+
+    <h3 style="margin-top:18px">متطلبات الجودة</h3>
+    <table>
+      <thead><tr><th>المتطلب</th><th>الحالة</th><th>النتيجة الآلية</th></tr></thead>
+      <tbody>
+      ${q.checks.map(x=>`<tr>
+        <td>${x.title}</td>
+        <td style="font-weight:700;color:${x.ok?'var(--ok)':'var(--danger)'}">${x.ok?'مستوفى':'غير مستوفى'}</td>
+        <td>${x.note}</td>
+      </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:18px">التوصية الآلية</h3>
+    <div class="${q.score>=90?'preview':'note'}"><strong>${q.status}</strong><br>${q.recommendation}</div>
+
+    ${missing.length?`
+      <h3 style="margin-top:18px">العناصر المطلوب استكمالها</h3>
+      <ul style="line-height:1.9">${missing.map(x=>`<li>${x.title}</li>`).join('')}</ul>
+    `:`
+      <div class="preview" style="margin-top:16px"><strong>لا توجد عناصر ناقصة.</strong> الخطة مستوفية للمتطلبات الأساسية المحددة في الأداة.</div>
+    `}
+
+    <h3 style="margin-top:18px">بيانات الاعتماد</h3>
+    <div class="meta">
+      <div><b>مُعد الخطة</b><span>${val('instructor')||'—'}</span></div>
+      <div><b>الحالة</b><span>${q.status}</span></div>
+      <div><b>تاريخ التقرير</b><span>${today}</span></div>
+      <div><b>البرنامج</b><span>${val('program')||'—'}</span></div>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      هذه الصفحة تُنشأ آليًا من بيانات خطة الدرس ولا تتطلب إدخالًا إضافيًا من عضو هيئة التدريس. الاعتماد الرسمي النهائي يخضع لإجراءات الجهة المختصة بالكلية.
+    </div>
+
+    <div class="rights"><strong>إعداد وتصميم: أ. نور أحمد الزهراني</strong><br>رئيسة دبلوم الأمن والسلامة<br>الكلية التطبيقية<br><span>جميع حقوق تصميم وإعداد الأداة محفوظة.</span></div>`;
+}
+function copyText(){
+  render();const t=$('outBody').innerText; navigator.clipboard?.writeText(t);
+  alert('تم نسخ النتيجة');
+}
+function printResult(){render();window.print()}
+function saveDraft(){
+  const s={fields:{},los:getLOs(),acts:getActs()};
+  ['program','course','week','duration','mode','title','instructor','prior','resource','store','feedback'].forEach(id=>s.fields[id]=val(id));
+  localStorage.setItem('lessonPlannerLite',JSON.stringify(s));alert('تم حفظ المسودة');
+}
+function loadDraft(){
+  const s=JSON.parse(localStorage.getItem('lessonPlannerLite')||'null');if(!s)return;
+  Object.entries(s.fields||{}).forEach(([k,v])=>{if($(k))$(k).value=v});
+  $('loList').innerHTML='';$('actList').innerHTML='';loN=0;actN=0;
+  (s.los||[]).forEach(addLO);(s.acts||[]).forEach(addActivity);
+  updateAll();
+}
+document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',updateAll));
+if(localStorage.getItem('lessonPlannerGuideHidden')==='1'){
+  $('guideBody')?.classList.add('hidden');
+  if($('guideToggle')) $('guideToggle').textContent='إظهار طريقة الاستخدام';
+}
+updateAll();
+</script>
+</body>
+</html>
